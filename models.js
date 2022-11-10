@@ -1,5 +1,7 @@
 //Requiring mongoose
 const mongoose = require('mongoose');
+//Requiring bcrypt
+const bcrypt = require('bcrypt');
 
 //Layer of translation between data in API and MyFlix website
 let movieSchema = mongoose.Schema({
@@ -25,6 +27,14 @@ let userSchema = mongoose.Schema({
   Birthday: Date,
   FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
 });
+
+userSchema.statics.hashPassword = (password) => {
+  return bcrypt.hashSync(password, 10);
+}
+
+userSchema.methods.validatePassword = function(password) {
+  return bcrypt.compareSync(password, this.Password);
+};
 
 //Creating the Collections
 let Movie = mongoose.model('Movie', movieSchema);
