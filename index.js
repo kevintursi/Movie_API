@@ -38,110 +38,6 @@ mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifie
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'});
 
-/*let users = [
-  {
-    id: 1,
-    name: 'Brent',
-    favoriteMovies: []
-  },
-  {
-    id: 2,
-    name: 'Stephen',
-    favoriteMovies: ['The Shawshank Redemption']
-  },
-];*/
-
-/*let movies = [
-  {
-    "Title": "Superbad",
-    "Description": "Two co-dependent high school seniors are forced to deal with separation anxiety after their plan to stage a booze-soaked party goes awry.",
-    "Genre": {
-      "Name": "Comedy",
-      "Description": "A comedy film is a category of film which emphasizes humor. These films are designed to make the audience laugh through amusement",
-    },
-    "Director": {
-      "Name": "Greg Mottola",
-      "Bio": "Gregory J. Mottola is an American film director, screenwriter, and television director.",
-      "Birth": 1964,
-    },
-    "ImageUrl": "https://en.wikipedia.org/wiki/Superbad#/media/File:Superbad_Poster.png",
-    "Featured": false
-  },
-  {
-    "Title": "Good Will Hunting",
-    "Description": "Will Hunting, a janitor at M.I.T., has a gift for mathematics, but needs help from a psychologist to find direction in his life.",
-    "Genre": {
-      "Name": "Psychological Drama",
-      "Description": "A sub-genre of drama that places emphasis on psychological elements",
-    },
-    "Director": {
-      "Name": "Gus Van Sant",
-      "Bio": "Gus Van Sant is an American film director, producer, photographer, and musician.",
-      "Birth": 1952,
-    },
-    "ImageUrl": "https://en.wikipedia.org/wiki/Good_Will_Hunting#/media/File:Good_Will_Hunting.png",
-    "Featured": false
-  },
-  {
-    "Title": "The Shawshank Redemption",
-    "Description": "Andy Dufresne (Tim Robbins) is sentenced to two consecutive life terms in prison for the murders of his wife and her lover and is sentenced to a tough prison. However, only Andy knows he didn't commit the crimes. While there, he forms a friendship with Red (Morgan Freeman), experiences brutality of prison life, adapts, helps the warden, etc., all in 19 years.",
-    "Genre": {
-      "Name": "Drama",
-      "Description": "A drama film is a category or genre of narrative fiction (or semi-fiction) intended to be more serious than humorous in tone.",
-    },
-    "Director": {
-      "Name": "Frank Darabont",
-      "Bio": "Frank Darabont is an American film director, screenwriter, and producer.",
-      "Birth": 1959,
-    },
-    "ImageUrl": "https://en.wikipedia.org/wiki/The_Shawshank_Redemption#/media/File:ShawshankRedemptionMoviePoster.jpg",
-    "Featured": false
-  }
-]*/
-
-/*let topMovies = [
-  {
-    title: 'Good Will Hunting',
-    director: 'Gus Van Sant'
-  },
-  {
-    title: 'Superbad',
-    director: 'Greg Mottola'
-  },
-  {
-    title: 'The Shawshank Redemption',
-    director: 'Frank Darabont'
-  },
-  {
-    title: 'Saving Private Ryan',
-    director: 'Steven Spielberg'
-  },
-  {
-    title: 'Spider-Man',
-    director: 'Sam Raimi'
-  },
-  {
-    title: 'The Dark Knight',
-    director: 'Christopher Nolan'
-  },
-  {
-    title: 'Goodfellas',
-    director: 'Martin Scorsese'
-  },
-  {
-    title: 'The Departed',
-    director: 'Martin Scorsese'
-  },
-  {
-    title: 'Hereditary',
-    director: 'Ari Aster'
-  },
-  {
-    title: 'Scareface',
-    director: 'Brian De Palma'
-  }
-];*/
-
 app.use(morgan('common', {stream: accessLogStream}));
 app.use(express.static('public'));
 
@@ -151,14 +47,14 @@ app.get('/', (req, res) =>{
 });
 
 //get all Movies
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/movies', function (req, res) => {
   Movies.find()
-    .then((movies) => {
-      res.status(200).json(movies);
+    .then(function (movies) => {
+      res.status(201).json(movies);
     })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
     });
 });
 
